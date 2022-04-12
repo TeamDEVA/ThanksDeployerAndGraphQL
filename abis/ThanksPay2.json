@@ -1,0 +1,487 @@
+[
+	{
+	  "inputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "constructor"
+	},
+	{
+	  "anonymous": false,
+	  "inputs": [
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "workerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "deleteEmployeeEvent",
+	  "type": "event"
+	},
+	{
+	  "anonymous": false,
+	  "inputs": [
+		{
+		  "indexed": false,
+		  "internalType": "string",
+		  "name": "email",
+		  "type": "string"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "workerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "monthlyWage",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "string",
+		  "name": "workerHashData",
+		  "type": "string"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "time",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "allowedToWithdraw",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "newEmployeeEvent",
+	  "type": "event"
+	},
+	{
+	  "anonymous": false,
+	  "inputs": [
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "time",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "nextPayday",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "newMonthEvent",
+	  "type": "event"
+	},
+	{
+	  "anonymous": false,
+	  "inputs": [
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "string",
+		  "name": "partnerEmail",
+		  "type": "string"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "balance",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "string",
+		  "name": "partnerLicenseId",
+		  "type": "string"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "string",
+		  "name": "partnerHashData",
+		  "type": "string"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "lastPayday",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "nextPayday",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "newPartnerEvent",
+	  "type": "event"
+	},
+	{
+	  "anonymous": false,
+	  "inputs": [
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "workerId",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "amount",
+		  "type": "uint256"
+		},
+		{
+		  "indexed": false,
+		  "internalType": "uint256",
+		  "name": "time",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "newWithdrawalReceipt",
+	  "type": "event"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "workerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "deleteEmployee",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
+	},
+	{
+	  "inputs": [],
+	  "name": "employeeCurrentId",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "employeesOfPartner",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "allowedToWithdraw",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "monthlyTotal",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "lastWithdrawal",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "bool",
+		  "name": "exists",
+		  "type": "bool"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "findEmployee",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "allowedToWithdraw",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "monthlyTotal",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "lastWithdrawal",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "bool",
+		  "name": "exists",
+		  "type": "bool"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "findPartner",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "balance",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "lastPayday",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "nextPayday",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "bool",
+		  "name": "exists",
+		  "type": "bool"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "employeeId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "getWithdrawable",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "workerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "workerEmail",
+		  "type": "string"
+		},
+		{
+		  "internalType": "string",
+		  "name": "workerHashData",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "monthlyFullWage",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "newEmployee",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "partnerEmail",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "balance",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "lastPayday",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "nextPayday",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "partnerLicenseId",
+		  "type": "string"
+		},
+		{
+		  "internalType": "string",
+		  "name": "partnerHashData",
+		  "type": "string"
+		}
+	  ],
+	  "name": "newPartner",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
+	},
+	{
+	  "inputs": [],
+	  "name": "partnerCurrentId",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "nextPayday",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "balanceAdd",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "payDay",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
+	},
+	{
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "employeeId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "partnerId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "amount",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "withdrawMoney",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
+	}
+  ]
+  

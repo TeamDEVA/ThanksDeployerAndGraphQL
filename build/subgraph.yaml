@@ -1,0 +1,35 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ThanksPay2
+    network: mumbai
+    source:
+      address: "0xb622BF169DF06c0E5E38E8f08468c307F72Ddf99"
+      abi: ThanksPay2
+      startBlock: 25797996
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - newEmployeeEvent
+        - newMonthEvent
+        - newPartnerEvent
+        - newWithdrawalReceipt
+      abis:
+        - name: ThanksPay2
+          file: ThanksPay2\abis\ThanksPay2.json
+      eventHandlers:
+        - event: handleEmployeeEvent(string,uint256,uint256,uint256,string,uint256,uint256)
+          handler: handlenewEmployeeEvent
+        - event: newMonthEvent(uint256,uint256,uint256)
+          handler: handlenewMonthEvent
+        - event: handlePartnerEvent(uint256,string,uint256,string,string,uint256)
+          handler: handlenewPartnerEvent
+        - event: newWithdrawalReceipt(uint256,uint256,uint256)
+          handler: handlenewWithdrawalReceipt
+      blockHandlers:
+        - handler: handleBlock
+      file: ThanksPay2\ThanksPay2.wasm
