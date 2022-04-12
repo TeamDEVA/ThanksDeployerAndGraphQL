@@ -1,3 +1,5 @@
+Haven't checked after merging yet, please continue to use your old graph-schema and mapping until it's all ok
+
 # thanksGraph with Graphql
 ```
 npm install --global @graphprotocol/graph-cli@latest
