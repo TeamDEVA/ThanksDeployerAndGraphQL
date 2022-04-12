@@ -1,0 +1,37 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xd1718D6209D2184Bc14A663fA7a27aE359053EBa",
+    "txHash": "0x9e520db54d00172de3579fefb7b99801a20158ae4dcb3fc999b140afc9880f0b"
+  },
+  "proxies": [
+    {
+      "address": "0x650d1353D9542fD083ECdfC3A9aAAd758FFcce6D",
+      "txHash": "0xa86fedf05cdb2a5bd5ac1c47c415e1f05b552a93d9e1de950632abcb22492c51",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "568eee0f710025209a560966058a63e83adae0bd03763edfbfa7eada0bb296c4": {
+      "address": "0x694806533913Ee501241DE4DAF463B8da5BcC53E",
+      "txHash": "0xcd6bbe18252b98264c1f97f14ab75a89e16f9191c62ee8646b3477d010c27b91",
+      "layout": {
+        "storage": [
+          {
+            "label": "greeting",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_string_storage",
+            "contract": "Greeter",
+            "src": "contracts\\Greeter.sol:7"
+          }
+        ],
+        "types": {
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  }
+}
