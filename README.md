@@ -1,5 +1,10 @@
 # Overview
 
+## need ganache running:
+``` bash
+ganache-cli --db="./ganacheDB" --mnemonic="one two three four five six seven eight nine ten eleven twelve" --account "0xc72698efb0958673193b9a5b89c64ebff5d359ab36b87eb6686c28d245ff0a4d, 100000000000000000000000000000000000000000000000000000000000000000000000000000"  --miner.coinbase 0xcB5b685C3bf58cCeeD8Bbe3fe391eab8bC5f1046  --chain.vmErrorsOnRPCResponse true
+```
+
 All functions to interact with the smart contact are located in API/thanksEthereum.js
 
 ## Writing: Initializing the writer
