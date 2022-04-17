@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   abiExporter: {
-      path: './data/abi',
+      path: '../graphSide/abi',
       runOnCompile: true,
       clear: true,
       flat: true,

@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 contract ThanksPay2{
     
 
-    using SafeMath for uint256;
+    using SafeMath for uint256; 
 
     address thanksAdmin;
     event handleEmployeeEvent(string email, uint256 workerId, uint256 partnerId, uint256 monthlyWage, string workerHashData, uint256 time, uint256 mode);

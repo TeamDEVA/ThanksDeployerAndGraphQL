@@ -1,0 +1,66 @@
+type Employee @entity @mutation {
+  id: ID!
+  status: Boolean
+  email: String
+  hashData: String
+  partner: Partner
+  registeredSince: BigInt
+  allowedToWithdraw: BigInt # currently available to withdraw
+  totalAllowance: BigInt # monthlyWage/2
+  monthlyWage: BigInt # monthlyWage
+  registrationHash: String 
+  time: BigInt
+}
+
+type Partner @entity {
+  id: ID!
+  status: Boolean
+  balance: BigInt
+  email: String 
+  hashData: String
+  currentMonth: Month
+  months: [Month!]@derivedFrom(field: "partner")
+  employees: [Employee!]@derivedFrom(field: "partner")
+  registrationHash: String
+}
+
+type Month @entity {
+  id: ID!
+  partner: Partner
+  startTime: BigInt
+  blockFrom: BigInt
+  Withdrawals: [Withdrawal!]@derivedFrom(field: "month")
+  registrationHash: String 
+}
+
+type Withdrawal @entity {
+  id: ID!
+  byEmployee: Employee
+  time: BigInt
+  amount: BigInt
+  month: Month
+  registrationHash: String 
+}
+
+type AllPartner @entity {
+  id: ID!
+  partners: [Partner!]! @relation  #one AllPartner to many Partner
+}
+
+type AllEmployee @entity {
+  id: ID!
+  employees: [Employee!]! @relation  #one AllPartner to many Partner
+}
+
+type Block @entity {
+  id: ID!
+}
+type Log @entity {
+  id: ID!
+  log: String!
+}
+type AllLog @entity {
+  id: ID!
+  logs: [Log!]! @relation
+  nextId: Int!
+}
