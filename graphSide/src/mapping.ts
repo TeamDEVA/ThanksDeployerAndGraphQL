@@ -97,11 +97,14 @@ export function handlenewPartnerEvent(event: handlePartnerEvent): void {
   //   allPartner.save();
   // }
   let partner: Partner;
-  
-  if (event.params.mode==BigInt.fromI32(0)){
+  // mode 0 = register new partner
+  if (event.params.mode==BigInt.fromI32(0))
+  {
     partner = new Partner(event.params.partnerId.toHex()) as Partner;
     partner.status = true;
-  }else{
+  }
+  else
+  { 
     partner = Partner.load(event.params.partnerId.toHex()) as Partner;
     if (partner){
       if (event.params.mode==BigInt.fromI32(1)){
@@ -112,12 +115,13 @@ export function handlenewPartnerEvent(event: handlePartnerEvent): void {
       }
     }
   }
-    if (partner){
+  if (partner){
       partner.balance = (event.params.balance);
       partner.email = event.params.partnerEmail; 
       partner.hashData = event.params.partnerHashData;
       partner.registrationHash = event.transaction.hash.toHex();
       partner.status = true;
+      
       //console.log(event.params.partnerId.toHex());
       partner.save();
     }

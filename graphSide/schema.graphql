@@ -15,6 +15,7 @@ type Employee @entity @mutation {
 type Partner @entity {
   id: ID!
   status: Boolean
+  blocked: Boolean
   balance: BigInt
   email: String 
   hashData: String

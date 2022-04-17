@@ -10,7 +10,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "workerId",
+        "name": "",
         "type": "uint256"
       },
       {
@@ -20,7 +20,7 @@
         "type": "uint256"
       }
     ],
-    "name": "deleteEmployeeEvent",
+    "name": "changeInBalance",
     "type": "event"
   },
   {
@@ -65,36 +65,11 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "allowedToWithdraw",
+        "name": "mode",
         "type": "uint256"
       }
     ],
-    "name": "newEmployeeEvent",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "partnerId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "nextPayday",
-        "type": "uint256"
-      }
-    ],
-    "name": "newMonthEvent",
+    "name": "handleEmployeeEvent",
     "type": "event"
   },
   {
@@ -133,7 +108,32 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "lastPayday",
+        "name": "mode",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "blocked",
+        "type": "bool"
+      }
+    ],
+    "name": "handlePartnerEvent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "partnerId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "time",
         "type": "uint256"
       },
       {
@@ -143,7 +143,7 @@
         "type": "uint256"
       }
     ],
-    "name": "newPartnerEvent",
+    "name": "newMonthEvent",
     "type": "event"
   },
   {
@@ -175,81 +175,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "workerId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "partnerId",
-        "type": "uint256"
-      }
-    ],
-    "name": "deleteEmployee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "employeeCurrentId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "employeesOfPartner",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "allowedToWithdraw",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "monthlyTotal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "lastWithdrawal",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "exists",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
@@ -264,6 +189,16 @@
       {
         "internalType": "uint256",
         "name": "allowedToWithdraw",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "withdrawnMonth",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "partnerId",
         "type": "uint256"
       },
       {
@@ -312,12 +247,17 @@
       },
       {
         "internalType": "uint256",
-        "name": "nextPayday",
+        "name": "blockFromDay",
         "type": "uint256"
       },
       {
         "internalType": "bool",
         "name": "exists",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "blocked",
         "type": "bool"
       }
     ],
@@ -333,12 +273,17 @@
       },
       {
         "internalType": "uint256",
-        "name": "partnerId",
+        "name": "timestamp",
         "type": "uint256"
       }
     ],
     "name": "getWithdrawable",
     "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "",
@@ -350,6 +295,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "workerId",
@@ -376,13 +326,18 @@
         "type": "uint256"
       }
     ],
-    "name": "newEmployee",
+    "name": "handleEmployee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "mode",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "partnerId",
@@ -399,16 +354,6 @@
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "lastPayday",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "nextPayday",
-        "type": "uint256"
-      },
-      {
         "internalType": "string",
         "name": "partnerLicenseId",
         "type": "string"
@@ -417,24 +362,16 @@
         "internalType": "string",
         "name": "partnerHashData",
         "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "blocked",
+        "type": "bool"
       }
     ],
-    "name": "newPartner",
+    "name": "handlePartner",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "partnerCurrentId",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -446,7 +383,12 @@
       },
       {
         "internalType": "uint256",
-        "name": "nextPayday",
+        "name": "lastPayday",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "blockFromDay",
         "type": "uint256"
       },
       {
@@ -469,7 +411,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "partnerId",
+        "name": "timestamp",
         "type": "uint256"
       },
       {

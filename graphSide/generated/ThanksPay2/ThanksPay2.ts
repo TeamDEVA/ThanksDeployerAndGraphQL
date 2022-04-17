@@ -10,20 +10,20 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class deleteEmployeeEvent extends ethereum.Event {
-  get params(): deleteEmployeeEvent__Params {
-    return new deleteEmployeeEvent__Params(this);
+export class changeInBalance extends ethereum.Event {
+  get params(): changeInBalance__Params {
+    return new changeInBalance__Params(this);
   }
 }
 
-export class deleteEmployeeEvent__Params {
-  _event: deleteEmployeeEvent;
+export class changeInBalance__Params {
+  _event: changeInBalance;
 
-  constructor(event: deleteEmployeeEvent) {
+  constructor(event: changeInBalance) {
     this._event = event;
   }
 
-  get workerId(): BigInt {
+  get param0(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -32,16 +32,16 @@ export class deleteEmployeeEvent__Params {
   }
 }
 
-export class newEmployeeEvent extends ethereum.Event {
-  get params(): newEmployeeEvent__Params {
-    return new newEmployeeEvent__Params(this);
+export class handleEmployeeEvent extends ethereum.Event {
+  get params(): handleEmployeeEvent__Params {
+    return new handleEmployeeEvent__Params(this);
   }
 }
 
-export class newEmployeeEvent__Params {
-  _event: newEmployeeEvent;
+export class handleEmployeeEvent__Params {
+  _event: handleEmployeeEvent;
 
-  constructor(event: newEmployeeEvent) {
+  constructor(event: handleEmployeeEvent) {
     this._event = event;
   }
 
@@ -69,8 +69,50 @@ export class newEmployeeEvent__Params {
     return this._event.parameters[5].value.toBigInt();
   }
 
-  get allowedToWithdraw(): BigInt {
+  get mode(): BigInt {
     return this._event.parameters[6].value.toBigInt();
+  }
+}
+
+export class handlePartnerEvent extends ethereum.Event {
+  get params(): handlePartnerEvent__Params {
+    return new handlePartnerEvent__Params(this);
+  }
+}
+
+export class handlePartnerEvent__Params {
+  _event: handlePartnerEvent;
+
+  constructor(event: handlePartnerEvent) {
+    this._event = event;
+  }
+
+  get partnerId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get partnerEmail(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get balance(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get partnerLicenseId(): string {
+    return this._event.parameters[3].value.toString();
+  }
+
+  get partnerHashData(): string {
+    return this._event.parameters[4].value.toString();
+  }
+
+  get mode(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+
+  get blocked(): boolean {
+    return this._event.parameters[6].value.toBoolean();
   }
 }
 
@@ -100,48 +142,6 @@ export class newMonthEvent__Params {
   }
 }
 
-export class newPartnerEvent extends ethereum.Event {
-  get params(): newPartnerEvent__Params {
-    return new newPartnerEvent__Params(this);
-  }
-}
-
-export class newPartnerEvent__Params {
-  _event: newPartnerEvent;
-
-  constructor(event: newPartnerEvent) {
-    this._event = event;
-  }
-
-  get partnerId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get partnerEmail(): string {
-    return this._event.parameters[1].value.toString();
-  }
-
-  get balance(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get partnerLicenseId(): string {
-    return this._event.parameters[3].value.toString();
-  }
-
-  get partnerHashData(): string {
-    return this._event.parameters[4].value.toString();
-  }
-
-  get lastPayday(): BigInt {
-    return this._event.parameters[5].value.toBigInt();
-  }
-
-  get nextPayday(): BigInt {
-    return this._event.parameters[6].value.toBigInt();
-  }
-}
-
 export class newWithdrawalReceipt extends ethereum.Event {
   get params(): newWithdrawalReceipt__Params {
     return new newWithdrawalReceipt__Params(this);
@@ -168,57 +168,31 @@ export class newWithdrawalReceipt__Params {
   }
 }
 
-export class ThanksPay2__employeesOfPartnerResult {
-  value0: BigInt;
-  value1: BigInt;
-  value2: BigInt;
-  value3: BigInt;
-  value4: boolean;
-
-  constructor(
-    value0: BigInt,
-    value1: BigInt,
-    value2: BigInt,
-    value3: BigInt,
-    value4: boolean
-  ) {
-    this.value0 = value0;
-    this.value1 = value1;
-    this.value2 = value2;
-    this.value3 = value3;
-    this.value4 = value4;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
-    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromBoolean(this.value4));
-    return map;
-  }
-}
-
 export class ThanksPay2__findEmployeeResult {
   value0: BigInt;
   value1: BigInt;
   value2: BigInt;
   value3: BigInt;
-  value4: boolean;
+  value4: BigInt;
+  value5: BigInt;
+  value6: boolean;
 
   constructor(
     value0: BigInt,
     value1: BigInt,
     value2: BigInt,
     value3: BigInt,
-    value4: boolean
+    value4: BigInt,
+    value5: BigInt,
+    value6: boolean
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -227,7 +201,9 @@ export class ThanksPay2__findEmployeeResult {
     map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromBoolean(this.value4));
+    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set("value6", ethereum.Value.fromBoolean(this.value6));
     return map;
   }
 }
@@ -238,19 +214,22 @@ export class ThanksPay2__findPartnerResult {
   value2: BigInt;
   value3: BigInt;
   value4: boolean;
+  value5: boolean;
 
   constructor(
     value0: BigInt,
     value1: BigInt,
     value2: BigInt,
     value3: BigInt,
-    value4: boolean
+    value4: boolean,
+    value5: boolean
   ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
     this.value4 = value4;
+    this.value5 = value5;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -260,6 +239,24 @@ export class ThanksPay2__findPartnerResult {
     map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
     map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     map.set("value4", ethereum.Value.fromBoolean(this.value4));
+    map.set("value5", ethereum.Value.fromBoolean(this.value5));
+    return map;
+  }
+}
+
+export class ThanksPay2__getWithdrawableResult {
+  value0: BigInt;
+  value1: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 }
@@ -269,82 +266,10 @@ export class ThanksPay2 extends ethereum.SmartContract {
     return new ThanksPay2("ThanksPay2", address);
   }
 
-  employeeCurrentId(): BigInt {
-    let result = super.call(
-      "employeeCurrentId",
-      "employeeCurrentId():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_employeeCurrentId(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "employeeCurrentId",
-      "employeeCurrentId():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  employeesOfPartner(
-    param0: BigInt,
-    param1: BigInt
-  ): ThanksPay2__employeesOfPartnerResult {
-    let result = super.call(
-      "employeesOfPartner",
-      "employeesOfPartner(uint256,uint256):(uint256,uint256,uint256,uint256,bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
-    );
-
-    return new ThanksPay2__employeesOfPartnerResult(
-      result[0].toBigInt(),
-      result[1].toBigInt(),
-      result[2].toBigInt(),
-      result[3].toBigInt(),
-      result[4].toBoolean()
-    );
-  }
-
-  try_employeesOfPartner(
-    param0: BigInt,
-    param1: BigInt
-  ): ethereum.CallResult<ThanksPay2__employeesOfPartnerResult> {
-    let result = super.tryCall(
-      "employeesOfPartner",
-      "employeesOfPartner(uint256,uint256):(uint256,uint256,uint256,uint256,bool)",
-      [
-        ethereum.Value.fromUnsignedBigInt(param0),
-        ethereum.Value.fromUnsignedBigInt(param1)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new ThanksPay2__employeesOfPartnerResult(
-        value[0].toBigInt(),
-        value[1].toBigInt(),
-        value[2].toBigInt(),
-        value[3].toBigInt(),
-        value[4].toBoolean()
-      )
-    );
-  }
-
   findEmployee(param0: BigInt): ThanksPay2__findEmployeeResult {
     let result = super.call(
       "findEmployee",
-      "findEmployee(uint256):(uint256,uint256,uint256,uint256,bool)",
+      "findEmployee(uint256):(uint256,uint256,uint256,uint256,uint256,uint256,bool)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -353,7 +278,9 @@ export class ThanksPay2 extends ethereum.SmartContract {
       result[1].toBigInt(),
       result[2].toBigInt(),
       result[3].toBigInt(),
-      result[4].toBoolean()
+      result[4].toBigInt(),
+      result[5].toBigInt(),
+      result[6].toBoolean()
     );
   }
 
@@ -362,7 +289,7 @@ export class ThanksPay2 extends ethereum.SmartContract {
   ): ethereum.CallResult<ThanksPay2__findEmployeeResult> {
     let result = super.tryCall(
       "findEmployee",
-      "findEmployee(uint256):(uint256,uint256,uint256,uint256,bool)",
+      "findEmployee(uint256):(uint256,uint256,uint256,uint256,uint256,uint256,bool)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -375,7 +302,9 @@ export class ThanksPay2 extends ethereum.SmartContract {
         value[1].toBigInt(),
         value[2].toBigInt(),
         value[3].toBigInt(),
-        value[4].toBoolean()
+        value[4].toBigInt(),
+        value[5].toBigInt(),
+        value[6].toBoolean()
       )
     );
   }
@@ -383,7 +312,7 @@ export class ThanksPay2 extends ethereum.SmartContract {
   findPartner(param0: BigInt): ThanksPay2__findPartnerResult {
     let result = super.call(
       "findPartner",
-      "findPartner(uint256):(uint256,uint256,uint256,uint256,bool)",
+      "findPartner(uint256):(uint256,uint256,uint256,uint256,bool,bool)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -392,7 +321,8 @@ export class ThanksPay2 extends ethereum.SmartContract {
       result[1].toBigInt(),
       result[2].toBigInt(),
       result[3].toBigInt(),
-      result[4].toBoolean()
+      result[4].toBoolean(),
+      result[5].toBoolean()
     );
   }
 
@@ -401,7 +331,7 @@ export class ThanksPay2 extends ethereum.SmartContract {
   ): ethereum.CallResult<ThanksPay2__findPartnerResult> {
     let result = super.tryCall(
       "findPartner",
-      "findPartner(uint256):(uint256,uint256,uint256,uint256,bool)",
+      "findPartner(uint256):(uint256,uint256,uint256,uint256,bool,bool)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -414,64 +344,53 @@ export class ThanksPay2 extends ethereum.SmartContract {
         value[1].toBigInt(),
         value[2].toBigInt(),
         value[3].toBigInt(),
-        value[4].toBoolean()
+        value[4].toBoolean(),
+        value[5].toBoolean()
       )
     );
   }
 
-  getWithdrawable(employeeId: BigInt, partnerId: BigInt): BigInt {
+  getWithdrawable(
+    employeeId: BigInt,
+    timestamp: BigInt
+  ): ThanksPay2__getWithdrawableResult {
     let result = super.call(
       "getWithdrawable",
-      "getWithdrawable(uint256,uint256):(uint256)",
+      "getWithdrawable(uint256,uint256):(uint256,uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(employeeId),
-        ethereum.Value.fromUnsignedBigInt(partnerId)
+        ethereum.Value.fromUnsignedBigInt(timestamp)
       ]
     );
 
-    return result[0].toBigInt();
+    return new ThanksPay2__getWithdrawableResult(
+      result[0].toBigInt(),
+      result[1].toBigInt()
+    );
   }
 
   try_getWithdrawable(
     employeeId: BigInt,
-    partnerId: BigInt
-  ): ethereum.CallResult<BigInt> {
+    timestamp: BigInt
+  ): ethereum.CallResult<ThanksPay2__getWithdrawableResult> {
     let result = super.tryCall(
       "getWithdrawable",
-      "getWithdrawable(uint256,uint256):(uint256)",
+      "getWithdrawable(uint256,uint256):(uint256,uint256)",
       [
         ethereum.Value.fromUnsignedBigInt(employeeId),
-        ethereum.Value.fromUnsignedBigInt(partnerId)
+        ethereum.Value.fromUnsignedBigInt(timestamp)
       ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  partnerCurrentId(): BigInt {
-    let result = super.call(
-      "partnerCurrentId",
-      "partnerCurrentId():(uint256)",
-      []
+    return ethereum.CallResult.fromValue(
+      new ThanksPay2__getWithdrawableResult(
+        value[0].toBigInt(),
+        value[1].toBigInt()
+      )
     );
-
-    return result[0].toBigInt();
-  }
-
-  try_partnerCurrentId(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "partnerCurrentId",
-      "partnerCurrentId():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 }
 
@@ -501,136 +420,106 @@ export class ConstructorCall__Outputs {
   }
 }
 
-export class DeleteEmployeeCall extends ethereum.Call {
-  get inputs(): DeleteEmployeeCall__Inputs {
-    return new DeleteEmployeeCall__Inputs(this);
+export class HandleEmployeeCall extends ethereum.Call {
+  get inputs(): HandleEmployeeCall__Inputs {
+    return new HandleEmployeeCall__Inputs(this);
   }
 
-  get outputs(): DeleteEmployeeCall__Outputs {
-    return new DeleteEmployeeCall__Outputs(this);
+  get outputs(): HandleEmployeeCall__Outputs {
+    return new HandleEmployeeCall__Outputs(this);
   }
 }
 
-export class DeleteEmployeeCall__Inputs {
-  _call: DeleteEmployeeCall;
+export class HandleEmployeeCall__Inputs {
+  _call: HandleEmployeeCall;
 
-  constructor(call: DeleteEmployeeCall) {
+  constructor(call: HandleEmployeeCall) {
     this._call = call;
+  }
+
+  get mode(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
   get workerId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get partnerId(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
-  }
-}
-
-export class DeleteEmployeeCall__Outputs {
-  _call: DeleteEmployeeCall;
-
-  constructor(call: DeleteEmployeeCall) {
-    this._call = call;
-  }
-}
-
-export class NewEmployeeCall extends ethereum.Call {
-  get inputs(): NewEmployeeCall__Inputs {
-    return new NewEmployeeCall__Inputs(this);
-  }
-
-  get outputs(): NewEmployeeCall__Outputs {
-    return new NewEmployeeCall__Outputs(this);
-  }
-}
-
-export class NewEmployeeCall__Inputs {
-  _call: NewEmployeeCall;
-
-  constructor(call: NewEmployeeCall) {
-    this._call = call;
-  }
-
-  get workerId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get partnerId(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get workerEmail(): string {
-    return this._call.inputValues[2].value.toString();
-  }
-
-  get workerHashData(): string {
-    return this._call.inputValues[3].value.toString();
-  }
-
-  get monthlyFullWage(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-}
-
-export class NewEmployeeCall__Outputs {
-  _call: NewEmployeeCall;
-
-  constructor(call: NewEmployeeCall) {
-    this._call = call;
-  }
-}
-
-export class NewPartnerCall extends ethereum.Call {
-  get inputs(): NewPartnerCall__Inputs {
-    return new NewPartnerCall__Inputs(this);
-  }
-
-  get outputs(): NewPartnerCall__Outputs {
-    return new NewPartnerCall__Outputs(this);
-  }
-}
-
-export class NewPartnerCall__Inputs {
-  _call: NewPartnerCall;
-
-  constructor(call: NewPartnerCall) {
-    this._call = call;
-  }
-
   get partnerId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-
-  get partnerEmail(): string {
-    return this._call.inputValues[1].value.toString();
-  }
-
-  get balance(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
   }
 
-  get lastPayday(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
+  get workerEmail(): string {
+    return this._call.inputValues[3].value.toString();
   }
 
-  get nextPayday(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
+  get workerHashData(): string {
+    return this._call.inputValues[4].value.toString();
   }
 
-  get partnerLicenseId(): string {
-    return this._call.inputValues[5].value.toString();
-  }
-
-  get partnerHashData(): string {
-    return this._call.inputValues[6].value.toString();
+  get monthlyFullWage(): BigInt {
+    return this._call.inputValues[5].value.toBigInt();
   }
 }
 
-export class NewPartnerCall__Outputs {
-  _call: NewPartnerCall;
+export class HandleEmployeeCall__Outputs {
+  _call: HandleEmployeeCall;
 
-  constructor(call: NewPartnerCall) {
+  constructor(call: HandleEmployeeCall) {
+    this._call = call;
+  }
+}
+
+export class HandlePartnerCall extends ethereum.Call {
+  get inputs(): HandlePartnerCall__Inputs {
+    return new HandlePartnerCall__Inputs(this);
+  }
+
+  get outputs(): HandlePartnerCall__Outputs {
+    return new HandlePartnerCall__Outputs(this);
+  }
+}
+
+export class HandlePartnerCall__Inputs {
+  _call: HandlePartnerCall;
+
+  constructor(call: HandlePartnerCall) {
+    this._call = call;
+  }
+
+  get mode(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get partnerId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get partnerEmail(): string {
+    return this._call.inputValues[2].value.toString();
+  }
+
+  get balance(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get partnerLicenseId(): string {
+    return this._call.inputValues[4].value.toString();
+  }
+
+  get partnerHashData(): string {
+    return this._call.inputValues[5].value.toString();
+  }
+
+  get blocked(): boolean {
+    return this._call.inputValues[6].value.toBoolean();
+  }
+}
+
+export class HandlePartnerCall__Outputs {
+  _call: HandlePartnerCall;
+
+  constructor(call: HandlePartnerCall) {
     this._call = call;
   }
 }
@@ -656,12 +545,16 @@ export class PayDayCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get nextPayday(): BigInt {
+  get lastPayday(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
-  get balanceAdd(): BigInt {
+  get blockFromDay(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get balanceAdd(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
   }
 }
 
@@ -694,7 +587,7 @@ export class WithdrawMoneyCall__Inputs {
     return this._call.inputValues[0].value.toBigInt();
   }
 
-  get partnerId(): BigInt {
+  get timestamp(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 

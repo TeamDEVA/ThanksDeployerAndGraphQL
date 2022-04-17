@@ -215,6 +215,7 @@ export class Partner extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("status", Value.fromBoolean(false));
+    this.set("blocked", Value.fromBoolean(false));
   }
 
   save(): void {
@@ -250,6 +251,15 @@ export class Partner extends Entity {
 
   set status(value: boolean) {
     this.set("status", Value.fromBoolean(value));
+  }
+
+  get blocked(): boolean {
+    let value = this.get("blocked");
+    return value!.toBoolean();
+  }
+
+  set blocked(value: boolean) {
+    this.set("blocked", Value.fromBoolean(value));
   }
 
   get balance(): BigInt | null {
