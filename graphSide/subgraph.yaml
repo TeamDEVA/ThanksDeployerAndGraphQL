@@ -24,11 +24,11 @@ dataSources:
           file: ./abis/ThanksPay2.json
       eventHandlers:
         - event: handleEmployeeEvent(string,uint256,uint256,uint256,string,uint256,uint256)
-          handler: handleEmployeeEvent
+          handler: handleHandleEmployeeEvent
         - event: newMonthEvent(uint256,uint256,uint256)
           handler: handlenewMonthEvent
         - event: handlePartnerEvent(uint256,string,uint256,string,string,uint256,bool)
-          handler: handlePartnerEvent
+          handler: handleHandlePartnerEvent
         - event: newWithdrawalReceipt(uint256,uint256,uint256)
           handler: handlenewWithdrawalReceipt
         # - event: deleteEmployeeEvent(uint256,uint256)

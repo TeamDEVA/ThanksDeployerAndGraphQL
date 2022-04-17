@@ -34,7 +34,7 @@ function getAllEmployee(): AllEmployee
 //   }
 // }
 
-export function handlenewEmployeeEvent(event: handleEmployeeEvent): void {
+export function handleHandleEmployeeEvent(event: handleEmployeeEvent): void {
   let employee: Employee;
   
   if (event.params.mode==BigInt.fromI32(0)){
@@ -89,7 +89,7 @@ export function handlenewMonthEvent(event: newMonthEvent): void {
   month.save();
 }
 
-export function handlenewPartnerEvent(event: handlePartnerEvent): void {
+export function handleHandlePartnerEvent(event: handlePartnerEvent): void {
   // let allPartner = AllPartner.load("sukaBlyat");
   // if(allPartner == null) 
   // {

@@ -144,7 +144,7 @@ contract ThanksPay2{
         if (mode==1){
             require(findPartner[partnerId].exists==true, "This partner does not exist");
         } 
-        
+         
         Partner memory myPartner = Partner(partnerId, balance, 0, 0, true, blocked);
         findPartner[partnerId] = myPartner;        
 

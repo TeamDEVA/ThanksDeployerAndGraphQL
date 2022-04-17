@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+var path = require('path');
 const thanksEthereumClass = require('../API/thanksEthereum.js');
 const Reader = require('../API/reader.js');
 
@@ -22,7 +23,9 @@ describe("Thanks check", async function () {
     getDate('2022', '4', '8')
   ];
   var reader = new Reader();
-  var thanksEthereum = new thanksEthereumClass('../API/nonce.txt');
+  let noncePath = path.join(__dirname, '/../API/nonce.txt');
+  console.log(noncePath);
+  var thanksEthereum = new thanksEthereumClass(noncePath);
   var firstPayday;
   var blockFrom;
   var hash;
@@ -41,7 +44,8 @@ describe("Thanks check", async function () {
       id + "@gmail.com", // email
       10000, //balance
       "0x1231284584958234958239459324859", // partner License Id
-      "0x1234567890"]
+      "0x1234567890",
+      false]
     );
 
     var result = await thanksEthereum.write("payDay", [

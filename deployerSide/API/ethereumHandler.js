@@ -1,6 +1,6 @@
 const ethers = require("ethers");
 require('dotenv').config({ path: '../.env' });
-const abi = require('../data/abi/ThanksPay2.json');
+const abi = require('../../graphSide/abis/ThanksPay2.json');
 const Web3 = require('web3');
 const fs = require('fs');
 
@@ -44,7 +44,7 @@ class EthereumHandler {
         this.signer = signer;
         //signer.getTransactionCount().then(result => console.log(result));
         var address = this.addr;
-        console.log(address);
+        console.log(network, "   ", address);
         this.myContract = new ethers.Contract(address, abi, signer)    // Write only
         var FeeData;
         provider.getFeeData().then(feeData =>{

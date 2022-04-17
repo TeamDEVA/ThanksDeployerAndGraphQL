@@ -5,10 +5,10 @@
     "deployOldThanks": "npx hardhat run ./scripts/deployOldThanks.js --network klaytn",
     "deployProxyGreeter": "npx hardhat run ./scripts/1_proxyGreeter.js --network matic",
     "deployMatic": "npx hardhat run ./scripts/2_normalThanksPay2.js --network matic",
-    "deployTestnet":"npx hardhat run ./scripts/2_normalThanksPay2.js --network testnet",
-    "deployMainnet":"npx hardhat run ./scripts/2_normalThanksPay2.js --network mainnet",
-    "deployGanache":"npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache",
-    "deployAll": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache && npx hardhat run ./scripts/2_normalThanksPay2.js --network testnet"
+    "deployTestnet": "npx hardhat run ./scripts/2_normalThanksPay2.js --network testnet",
+    "deployMainnet": "npx hardhat run ./scripts/2_normalThanksPay2.js --network mainnet",
+    "deployGanache": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache",
+    "deployAll": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache && npx hardhat run ./scripts/2_normalThanksPay2.js --network mainnet"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
@@ -17,14 +17,14 @@
     "chai": "^4.2.0",
     "ethereum-waffle": "^3.0.0",
     "ethers": "^5.5.4",
-    "hardhat": "^2.9.1",
+    "hardhat": "^2.9.3",
     "hardhat-abi-exporter": "^2.8.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/contracts-upgradeable": "^4.5.2",
-    "node-fetch-commonjs": "^3.1.1",
     "dotenv": "^16.0.0",
+    "node-fetch-commonjs": "^3.1.1",
     "save-dev": "^0.0.1-security",
     "web3": "^1.7.1"
   }

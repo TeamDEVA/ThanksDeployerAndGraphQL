@@ -4,7 +4,7 @@ require('dotenv').config();
 require('hardhat-abi-exporter');
 const fs = require('fs');
 module.exports = {
-  defaultNetwork: "matic",
+  defaultNetwork: "mainnet",
   networks: {
     ganache: {
       url: process.env.ganacheRPC,
@@ -20,17 +20,17 @@ module.exports = {
       url: process.env.polygonRPC,
       accounts: [process.env.POLYGON_PRIVATE_KEY]
     },
-    // mainnet: {
-    //   url: process.env.mainnetRPC,
-    //   accounts: [process.env.MAINNET_PRIVATE_KEY]
-    // },
+    mainnet: {
+      url: process.env.mainnetRPC,
+      accounts: [process.env.MAINNET_PRIVATE_KEY]
+    },
     klaytn: {
       url: "https://api.baobab.klaytn.net:8651/",
       accounts: [process.env.KLAYTN_PRIVATE_KEY]
     }
   },
   abiExporter: {
-      path: '../graphSide/abi',
+      path: '../graphSide/abis',
       runOnCompile: true,
       clear: true,
       flat: true,
