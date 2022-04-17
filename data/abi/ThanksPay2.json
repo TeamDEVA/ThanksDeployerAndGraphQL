@@ -110,6 +110,12 @@
         "internalType": "uint256",
         "name": "mode",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "blocked",
+        "type": "bool"
       }
     ],
     "name": "handlePartnerEvent",
@@ -248,6 +254,11 @@
         "internalType": "bool",
         "name": "exists",
         "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "blocked",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -351,6 +362,11 @@
         "internalType": "string",
         "name": "partnerHashData",
         "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "blocked",
+        "type": "bool"
       }
     ],
     "name": "handlePartner",

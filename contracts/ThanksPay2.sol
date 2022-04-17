@@ -13,7 +13,7 @@ contract ThanksPay2{
     event handleEmployeeEvent(string email, uint256 workerId, uint256 partnerId, uint256 monthlyWage, string workerHashData, uint256 time, uint256 mode);
     event newMonthEvent(uint256 partnerId, uint256 time, uint256 nextPayday);
     event newWithdrawalReceipt(uint256 workerId, uint256 amount, uint256 time);
-    event handlePartnerEvent(uint256 partnerId, string partnerEmail, uint256 balance, string partnerLicenseId, string partnerHashData, uint256 mode);
+    event handlePartnerEvent(uint256 partnerId, string partnerEmail, uint256 balance, string partnerLicenseId, string partnerHashData, uint256 mode, bool blocked);
     event changeInBalance(uint256, uint256 partnerId);
 
     struct Employee{ 
@@ -32,6 +32,7 @@ contract ThanksPay2{
         uint256 lastPayday;
         uint256 blockFromDay;
         bool exists;
+        bool blocked;
     }
 
     modifier isAdmin(){
@@ -133,21 +134,21 @@ contract ThanksPay2{
     
     // mode 0 = register new partner
     // mode 1 = edit existing partner with this id
-    // mode 2 = delete the partner
-    function handlePartner(uint256 mode, uint256 partnerId, string memory partnerEmail, uint256 balance, string memory partnerLicenseId, string memory partnerHashData) 
+    // mode 2 = delete the partner .. we don't hve ths one
+    function handlePartner(uint256 mode, uint256 partnerId, string memory partnerEmail, uint256 balance, string memory partnerLicenseId, string memory partnerHashData, bool blocked) 
     public{
+        require(msg.sender == thanksAdmin, "It is a private smart contract");
         if (mode==0){
             require(findPartner[partnerId].exists==false, "This partner is already registered");
         }
         if (mode==1){
             require(findPartner[partnerId].exists==true, "This partner does not exist");
         } 
+        
+        Partner memory myPartner = Partner(partnerId, balance, 0, 0, true, blocked);
+        findPartner[partnerId] = myPartner;        
 
-        require(msg.sender == thanksAdmin, "It is a private smart contract");
-        Partner memory myPartner = Partner(partnerId, balance, 0, 0, true);
-        findPartner[partnerId] = myPartner;
-
-        emit handlePartnerEvent(partnerId, partnerEmail, balance, partnerLicenseId, partnerHashData, mode);
+        emit handlePartnerEvent(partnerId, partnerEmail, balance, partnerLicenseId, partnerHashData, mode, blocked);
     }
 
     // mode 0 = register new employee
