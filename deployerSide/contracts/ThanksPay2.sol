@@ -43,17 +43,19 @@ contract ThanksPay2{
     mapping(uint256 => Employee) public findEmployee;
     mapping(uint256 => Partner) public findPartner;
 
-    
+    // please add comment here, which one to call
     function payDay(uint256 partnerId, uint256 lastPayday, uint256 blockFromDay, uint256 balanceAdd) public{
         require(block.timestamp - findPartner[partnerId].lastPayday > 28 days, "A month has not been passed!");
         require(msg.sender == thanksAdmin, "It's a private smart contract");
         findPartner[partnerId].lastPayday = lastPayday; // @ block.timestamp;
-        findPartner[partnerId].blockFromDay = blockFromDay;
+        // this is the block.timestamp from which UTC time
+        findPartner[partnerId].blockFromDay = blockFromDay; 
         findPartner[partnerId].balance += balanceAdd;
         emit newMonthEvent(partnerId, block.timestamp, blockFromDay);
         // @  emit newMonthEvent(partnerId, lastPayday, nextPayday);
     }
 
+    // called by withdrawMoney
     function getWithdrawable(uint256 employeeId, uint256 timestamp) public view returns(uint256, uint256){
         Employee memory myEmployee = findEmployee[employeeId];
         require(myEmployee.exists == true, "This employee is not registered");
@@ -109,6 +111,7 @@ contract ThanksPay2{
         return (allowedToWithdraw, withdrawnMonth);
     }
 
+    // frontend calls this to withdrawmoney for employee.
     function withdrawMoney(uint256 employeeId, uint256 timestamp, uint256 amount) public{
         Employee memory myEmployee = findEmployee[employeeId];
         Partner memory myPartner = findPartner[myEmployee.partnerId];
