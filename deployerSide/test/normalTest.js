@@ -10,8 +10,8 @@ function getDate(year, month, day) {
 }
 
 describe("Thanks check", async function () {
-  var mode = 0;
-  var id = 16;
+  var mode = 0; // only create
+  var id = 18;
   var dateArray = [
     getDate('2022', '3', '6'),
     getDate('2022', '3', '8'),
@@ -26,6 +26,7 @@ describe("Thanks check", async function () {
   let noncePath = path.join(__dirname, '/../API/nonce.txt');
   console.log(noncePath);
   var thanksEthereum = new thanksEthereumClass(noncePath);
+  thanksEthereum.initialize();
   var firstPayday;
   var blockFrom;
   var hash;
@@ -39,7 +40,7 @@ describe("Thanks check", async function () {
     firstPayday = dateArray[0];
     blockFrom = dateArray[dateArray.length - 2];
     var result = await thanksEthereum.write("handlePartner", [
-      mode, //mode
+      mode, //mode = 0
       id,
       id + "@gmail.com", // email
       10000, //balance
@@ -48,12 +49,15 @@ describe("Thanks check", async function () {
       false]
     );
 
+    console.log("Should register a new partner id ", id, " ", result);
+
     var result = await thanksEthereum.write("payDay", [
       id,
       firstPayday,
       blockFrom,
       10000]
     );
+    console.log("and set a payday", result);
   });
 
   it("Should register a new employee", async function () {
@@ -65,6 +69,7 @@ describe("Thanks check", async function () {
       id+"@gmail.com",
       "0x5e714A21331A2bC941abF45F8Ba974B1B226eBd3",
       350]);
+    console.log("Should register a new employee", result);
   });
 
   for (let i = 0; i <= dateArray.length-1; i++) {

@@ -1,4 +1,5 @@
 const ethers = require("ethers");
+var path = require("path");
 require('dotenv').config({ path: '../.env' });
 const abi = require('../../graphSide/abis/ThanksPay2.json');
 const Web3 = require('web3');
@@ -69,9 +70,9 @@ class EthereumHandler {
     }
     async initializeNonceMainnet(network){
         console.log("Trying tow init");
-        if (network=="mainnet" || network=='testnet'){
-            var nonce = await this.web3.eth.getTransactionCount(process.env.polygonSenderAddress)-1;
-            fs.writeFileSync('./API/test.txt', (nonce).toString());
+        if (network=="mainnet"){
+            var nonce = await this.web3.eth.getTransactionCount(process.env.mainnetSenderAddress)-1;
+            fs.writeFileSync(path.join(__dirname, '/../API/nonce.txt'), (nonce).toString());
         }
     }
     async getRevertReason(txHash) {

@@ -8,7 +8,7 @@ require('dotenv').config({ path: '../.env' });
 class thanksEthereumClass {
     constructor(nonceLocation) {
         this.nonceLocation = nonceLocation;
-        this.mainnetHandler = new EthereumHandler("testnet");
+        this.mainnetHandler = new EthereumHandler("mainnet");
         this.ganacheHandler = new EthereumHandler("ganache");
         this.options = this.mainnetHandler.options;
         this.mainnetContract = this.mainnetHandler.myContract;
@@ -16,7 +16,7 @@ class thanksEthereumClass {
         this.investigator = new Investigator();
     }
     async initialize(){
-      await this.mainnetHandler.initializeNonceMainnet("testnet");
+      await this.mainnetHandler.initializeNonceMainnet("mainnet");
     }
 
     async getReceipt(txHash){
