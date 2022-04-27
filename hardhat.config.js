@@ -3,6 +3,9 @@ require('@openzeppelin/hardhat-upgrades');
 require('dotenv').config();
 require('hardhat-abi-exporter');
 const fs = require('fs');
+
+task("balance", "Prints an account's balance").setAction(async () => {});
+
 module.exports = {
   defaultNetwork: "matic",
   networks: {

@@ -123,6 +123,40 @@ export class Employee extends Entity {
     }
   }
 
+  get currentBalance(): BigInt | null {
+    let value = this.get("currentBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set currentBalance(value: BigInt | null) {
+    if (!value) {
+      this.unset("currentBalance");
+    } else {
+      this.set("currentBalance", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get Withdrawals(): Array<string> | null {
+    let value = this.get("Withdrawals");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set Withdrawals(value: Array<string> | null) {
+    if (!value) {
+      this.unset("Withdrawals");
+    } else {
+      this.set("Withdrawals", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
   get allowedToWithdraw(): BigInt | null {
     let value = this.get("allowedToWithdraw");
     if (!value || value.kind == ValueKind.NULL) {
@@ -448,23 +482,6 @@ export class Month extends Entity {
     }
   }
 
-  get blockFrom(): BigInt | null {
-    let value = this.get("blockFrom");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set blockFrom(value: BigInt | null) {
-    if (!value) {
-      this.unset("blockFrom");
-    } else {
-      this.set("blockFrom", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
   get Withdrawals(): Array<string> | null {
     let value = this.get("Withdrawals");
     if (!value || value.kind == ValueKind.NULL) {
@@ -532,8 +549,8 @@ export class Withdrawal extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get byEmployee(): string | null {
-    let value = this.get("byEmployee");
+  get employee(): string | null {
+    let value = this.get("employee");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -541,11 +558,11 @@ export class Withdrawal extends Entity {
     }
   }
 
-  set byEmployee(value: string | null) {
+  set employee(value: string | null) {
     if (!value) {
-      this.unset("byEmployee");
+      this.unset("employee");
     } else {
-      this.set("byEmployee", Value.fromString(<string>value));
+      this.set("employee", Value.fromString(<string>value));
     }
   }
 

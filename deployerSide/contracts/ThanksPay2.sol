@@ -5,9 +5,7 @@ pragma experimental ABIEncoderV2;
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract ThanksPay2{
-    
-
-    using SafeMath for uint256; 
+    using SafeMath for uint256;
 
     address thanksAdmin;
     event handleEmployeeEvent(string email, uint256 workerId, uint256 partnerId, uint256 monthlyWage, string workerHashData, uint256 time, uint256 mode);
@@ -43,34 +41,28 @@ contract ThanksPay2{
     mapping(uint256 => Employee) public findEmployee;
     mapping(uint256 => Partner) public findPartner;
 
-    // please add comment here, which one to call
+    
     function payDay(uint256 partnerId, uint256 lastPayday, uint256 blockFromDay, uint256 balanceAdd) public{
         require(block.timestamp - findPartner[partnerId].lastPayday > 28 days, "A month has not been passed!");
         require(msg.sender == thanksAdmin, "It's a private smart contract");
         findPartner[partnerId].lastPayday = lastPayday; // @ block.timestamp;
-        // this is the block.timestamp from which UTC time
-        findPartner[partnerId].blockFromDay = blockFromDay; 
+        findPartner[partnerId].blockFromDay = blockFromDay;
         findPartner[partnerId].balance += balanceAdd;
         emit newMonthEvent(partnerId, block.timestamp, blockFromDay);
-        // @  emit newMonthEvent(partnerId, lastPayday, nextPayday);
     }
 
-    // called by withdrawMoney
     function getWithdrawable(uint256 employeeId, uint256 timestamp) public view returns(uint256, uint256){
         Employee memory myEmployee = findEmployee[employeeId];
-        require(myEmployee.exists == true, "This employee is not registered");
-        //require(timestamp < myPartner.blockFromDay, "The withdrawals are closed during the audit period");
-        //require(timestamp > myPartner.lastPayday, "DEV-ERROR: withdrawing BEFORE last payday");
-
-
-        uint256 partnerId = findEmployee[employeeId].partnerId;
-        Partner memory myPartner = findPartner[partnerId];
+        Partner memory myPartner = findPartner[myEmployee.id];
+        require(myEmployee.exists == true, "DEV-ERR: This employee is not registered");
+        require(timestamp < myPartner.blockFromDay, "ERR: Audit period (no withdrawals)"); // 2 day before withdrawals
+        require(timestamp > myPartner.lastPayday, "DEV-ERR: Withdrawing BEFORE last payday");
+        require(myPartner.lastPayday!=0, "ERR: payday not registered with partner");
         
         // block the payment if the withdrawals are blocked
-        if (timestamp > myPartner.blockFromDay &&
-            timestamp.sub(myPartner.lastPayday) < 7 days){
+        if (timestamp.sub(myPartner.lastPayday) < 7 days){
             // next Payday should take into account the time for business days
-            return (0, 0);
+            revert("ERR: First week (no withdrawals)");
         }
 
         // 2 variables we will track in this function
@@ -111,20 +103,17 @@ contract ThanksPay2{
         return (allowedToWithdraw, withdrawnMonth);
     }
 
-    // frontend calls this to withdrawmoney for employee.
     function withdrawMoney(uint256 employeeId, uint256 timestamp, uint256 amount) public{
         Employee memory myEmployee = findEmployee[employeeId];
         Partner memory myPartner = findPartner[myEmployee.partnerId];
         uint256 allowedToWithdraw;
         uint256 withdrawnMonth;
         (allowedToWithdraw, withdrawnMonth) = getWithdrawable(employeeId, timestamp);
-        require(timestamp < myPartner.blockFromDay, "Audit period: the withdrawals are closed");
-        require(timestamp > myPartner.lastPayday, "DEV-ERROR: withdrawing BEFORE last payday");
-        require(myPartner.lastPayday!=0, "The partner company did not register payday yet");
-        require(timestamp - myEmployee.lastWithdrawal > 1 days, "You can only withdraw once per day");
-        require(amount <= myPartner.balance, "The partner company does not have enough balance");
-        require(allowedToWithdraw!=0, "You cannot withdraw anything yet");
-        require(allowedToWithdraw > amount, "You do not have this much to withdraw");
+        require(myPartner.blocked==false, "ERR: withdrawals blocked by partner");
+        require(timestamp - myEmployee.lastWithdrawal > 1 days, "ERR: one withdrawal already done"); // workers can only withdraw once per day
+        require(amount <= myPartner.balance, "ERR: partner company doesn't have balance"); // withdrawal should be less than partner balance
+        // require(allowedToWithdraw!=0, "ERR: "); // 
+        require(allowedToWithdraw > amount, "ERR: not enough money to cover this withdrawal");
         require(msg.sender == thanksAdmin, "It is a private smart contract");
         
         // update lastWithdrawal, allowedToWithdraw, balance
@@ -147,7 +136,7 @@ contract ThanksPay2{
         if (mode==1){
             require(findPartner[partnerId].exists==true, "This partner does not exist");
         } 
-         
+        
         Partner memory myPartner = Partner(partnerId, balance, 0, 0, true, blocked);
         findPartner[partnerId] = myPartner;        
 
@@ -190,5 +179,5 @@ contract ThanksPay2{
 
     constructor(){
         thanksAdmin = msg.sender;
-    }     
+    }
 }

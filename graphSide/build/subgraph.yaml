@@ -6,30 +6,33 @@ dataSources:
     name: ThanksPay2
     network: mumbai
     source:
-      address: "0xb622BF169DF06c0E5E38E8f08468c307F72Ddf99"
+      address: "0x44b762A3Be3628ACfCA2Aa7224E4804dF5929FD1"
       abi: ThanksPay2
-      startBlock: 25797996
+      startBlock: 26089000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - newEmployeeEvent
+        - changeInBalance
+        - handleEmployeeEvent
+        - handlePartnerEvent
         - newMonthEvent
-        - newPartnerEvent
         - newWithdrawalReceipt
       abis:
         - name: ThanksPay2
           file: ThanksPay2\abis\ThanksPay2.json
       eventHandlers:
+        - event: changeInBalance(uint256,uint256)
+          handler: handleChangeInBalance
         - event: handleEmployeeEvent(string,uint256,uint256,uint256,string,uint256,uint256)
           handler: handleHandleEmployeeEvent
-        - event: newMonthEvent(uint256,uint256,uint256)
-          handler: handlenewMonthEvent
         - event: handlePartnerEvent(uint256,string,uint256,string,string,uint256,bool)
           handler: handleHandlePartnerEvent
+        - event: newMonthEvent(uint256,uint256,uint256)
+          handler: handleNewMonthEvent
         - event: newWithdrawalReceipt(uint256,uint256,uint256)
-          handler: handlenewWithdrawalReceipt
+          handler: handleNewWithdrawalReceipt
       blockHandlers:
         - handler: handleBlock
       file: ThanksPay2\ThanksPay2.wasm

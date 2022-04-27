@@ -22,26 +22,14 @@ function getAllEmployee(): AllEmployee
   return allEmployee;
 }
 
-// export function handleDeleteEmployeeEvent(event: deleteEmployeeEvent): void {
-//   let employee = Employee.load(event.params.workerId.toHex());
-//   if(employee)
-//   {
-//     employee.status = false;
-//     employee.save();
-//   } else 
-//   {
-//     saveNewLog("can't find the employee id " + event.params.workerId.toString());
-//   }
-// }
-
 export function handleHandleEmployeeEvent(event: handleEmployeeEvent): void {
   let employee: Employee;
   
   if (event.params.mode==BigInt.fromI32(0)){
-    employee = new Employee(event.params.workerId.toHex()) as Employee;
+    employee = new Employee(event.params.workerId.toString()) as Employee;
     employee.status = true;
   }else{
-    employee = Employee.load(event.params.workerId.toHex()) as Employee;
+    employee = Employee.load(event.params.workerId.toString()) as Employee;
     if (employee){
       if (event.params.mode==BigInt.fromI32(1)){
         employee.status = true;
@@ -53,39 +41,34 @@ export function handleHandleEmployeeEvent(event: handleEmployeeEvent): void {
   }
 
     if (employee){
+      employee.currentBalance = BigInt.fromI32(0);
       employee.email = event.params.email;
       employee.hashData = event.params.workerHashData;
       employee.registeredSince = event.params.time;
       employee.totalAllowance = event.params.monthlyWage.div(BigInt.fromI32(2));
       employee.monthlyWage = event.params.monthlyWage;
       employee.allowedToWithdraw = BigInt.fromI32(0);
-      employee.registrationHash = event.transaction.hash.toHex();
+      employee.registrationHash = event.transaction.hash.toString();
       // Entity fields can be set based on event parameters
       
-      let partner = Partner.load(event.params.partnerId.toHex());
+      let partner = Partner.load(event.params.partnerId.toString());
       if (partner){
         employee.partner = partner.id;
         partner.save();
     }
   }
   employee.save();
-
 }
 
-export function handlenewMonthEvent(event: newMonthEvent): void {
-  let date:  Date = new Date(event.params.time.toI32());
-  let monthInt = date.getUTCMonth();
-  let yearInt = date.getUTCFullYear();
-  let monthYearId = monthInt.toString() + "/" + yearInt.toString();
-  let month = new Month(monthYearId);
-  let partner = Partner.load(event.params.partnerId.toHex()); 
+export function handleNewMonthEvent(event: newMonthEvent): void {
+  let month = new Month(event.params.partnerId.toString() + event.params.time.toString());
+  let partner = Partner.load(event.params.partnerId.toString()); 
   if (partner){
     month.partner = partner.id;
     partner.currentMonth = month.id;
   }
   month.startTime = event.params.time;
-  month.blockFrom = event.params.time;
-  month.registrationHash = event.transaction.hash.toHex();
+  month.registrationHash = event.transaction.hash.toString();
   month.save();
 }
 
@@ -100,12 +83,12 @@ export function handleHandlePartnerEvent(event: handlePartnerEvent): void {
   // mode 0 = register new partner
   if (event.params.mode==BigInt.fromI32(0))
   {
-    partner = new Partner(event.params.partnerId.toHex()) as Partner;
+    partner = new Partner(event.params.partnerId.toString()) as Partner;
     partner.status = true;
   }
   else
   { 
-    partner = Partner.load(event.params.partnerId.toHex()) as Partner;
+    partner = Partner.load(event.params.partnerId.toString()) as Partner;
     if (partner){
       if (event.params.mode==BigInt.fromI32(1)){
         partner.status = true;
@@ -119,21 +102,19 @@ export function handleHandlePartnerEvent(event: handlePartnerEvent): void {
       partner.balance = (event.params.balance);
       partner.email = event.params.partnerEmail; 
       partner.hashData = event.params.partnerHashData;
-      partner.registrationHash = event.transaction.hash.toHex();
-      partner.status = true;
-      
-      //console.log(event.params.partnerId.toHex());
+      partner.registrationHash = event.transaction.hash.toString();
+      partner.blocked = event.params.blocked;
       partner.save();
     }
 }
     
 
-export function handlenewWithdrawalReceipt(event: newWithdrawalReceipt): void {
+export function handleNewWithdrawalReceipt(event: newWithdrawalReceipt): void {
   let withdrawal = new Withdrawal(event.transaction.hash.toHex());
   let employee = Employee.load(event.params.workerId.toHex()) as Employee;
   let partner: Partner;
   if (employee){
-    withdrawal.byEmployee = employee.id;
+    withdrawal.employee = employee.id;
     let partnerId = employee.partner;
     if (partnerId){
       partner = Partner.load(partnerId) as Partner;
@@ -150,7 +131,7 @@ export function handlenewWithdrawalReceipt(event: newWithdrawalReceipt): void {
   withdrawal.save();
 }
 
-// this function returns all the logs
+
 function getAllLog(): AllLog
 {
   let allLog = AllLog.load("suka");
@@ -197,51 +178,5 @@ function saveNewLog(str:string):void {
 }
 
 export function handleBlock(block: ethereum.Block): void {
-  // let id = block.hash.toHex();
-  // let timeStamp = block.timestamp; // BigInt
-  // let contractAddr = block.author;
-  // let allEmployee = getAllEmployee();
-  // if(allEmployee)
-  // {
-  //   let allEmployeeArr = allEmployee.employees;
-  //   for(let i = 0; i < allEmployeeArr.length; ++i)
-  //   {
-  //     let employeeId = allEmployeeArr[i];
-  //     let employee = Employee.load(employeeId);
-  //     if(employee)
-  //     {
-  //       let partnerId = employee.partner;
-  //       if(partnerId)
-  //       {
-  //         let partner = Partner.load(partnerId);
-  //         if(partner)
-  //         {
-  //           let lastPayday = partner.lastPayday;
-  //           if(lastPayday)
-  //           {
-  //             let timeDiff = timeStamp.minus(lastPayday);
-  //             let secondPerDay:BigInt = BigInt.fromI32(60*60*24);
-  //             employee.time = timeDiff.div(secondPerDay);
-  //             let threshold1 = BigInt.fromI32(7);
-  //             if(timeDiff.div(secondPerDay) > threshold1)
-  //             {
-  //               //employee.allowedToWithdraw = employee.
-  //             }
-  //             saveNewLog("cal btw blk timestamp: " + timeStamp.toString() + " & lastPayday: " + (lastPayday.toString()));
-  //           } else 
-  //             saveNewLog("can't get lastPayday of partner " + (partnerId as string));
-  //         } else 
-  //         {
-  //           employee.time = timeStamp;
-  //         }
-  //         employee.save();
-  //       }
-  //     } else 
-  //     {
-  //       saveNewLog("not detect employee mf from " + employeeId.toString());   
-  //     }
-  //   }
-  // } else { 
-  //   saveNewLog("not detect allEmployee mother fucker");   
-  // }
+
 }

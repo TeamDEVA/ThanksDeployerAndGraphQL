@@ -10,7 +10,7 @@ function getDate(year, month, day) {
 
 describe("Thanks check", async function () {
   var mode = 0;
-  var id = 16;
+  var id = 2;
   var dateArray = [
     getDate('2022', '3', '6'),
     getDate('2022', '3', '8'),
@@ -22,7 +22,7 @@ describe("Thanks check", async function () {
     getDate('2022', '4', '8')
   ];
   var reader = new Reader();
-  var thanksEthereum = new thanksEthereumClass('../API/nonce.txt');
+  var thanksEthereum = new thanksEthereumClass('./API/nonce.txt');
   var firstPayday;
   var blockFrom;
   var hash;
@@ -41,7 +41,9 @@ describe("Thanks check", async function () {
       id + "@gmail.com", // email
       10000, //balance
       "0x1231284584958234958239459324859", // partner License Id
-      "0x1234567890"]
+      "0x1234567890",
+      false //blocked
+    ]
     );
 
     var result = await thanksEthereum.write("payDay", [
@@ -66,7 +68,6 @@ describe("Thanks check", async function () {
   for (let i = 0; i <= dateArray.length-1; i++) {
     this.timeout(0);
     it("Fixed payment, checking withdrawal at " + new Date(dateArray[i]/1000), async function () {
-      
       var thisDate = dateArray[i];
       var result = await thanksEthereum.read("getWithdrawable", [
         id,

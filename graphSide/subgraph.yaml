@@ -1,38 +1,38 @@
-
 specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum/contract
-    name: ThanksPay2
-    network: mumbai
-    source:
-      address: "0xb622BF169DF06c0E5E38E8f08468c307F72Ddf99"
-      abi: ThanksPay2
-      startBlock: 25797996
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        - newEmployeeEvent
-        - newMonthEvent
-        - newPartnerEvent
-        - newWithdrawalReceipt
-      abis:
-        - name: ThanksPay2
-          file: ./abis/ThanksPay2.json
-      eventHandlers:
-        - event: handleEmployeeEvent(string,uint256,uint256,uint256,string,uint256,uint256)
-          handler: handleHandleEmployeeEvent
-        - event: newMonthEvent(uint256,uint256,uint256)
-          handler: handlenewMonthEvent
-        - event: handlePartnerEvent(uint256,string,uint256,string,string,uint256,bool)
-          handler: handleHandlePartnerEvent
-        - event: newWithdrawalReceipt(uint256,uint256,uint256)
-          handler: handlenewWithdrawalReceipt
-        # - event: deleteEmployeeEvent(uint256,uint256)
-        #   handler: handleDeleteEmployeeEvent
-      blockHandlers:
-        - handler: handleBlock
-      file: ./src/mapping.ts
+- kind: ethereum/contract
+  name: ThanksPay2
+  network: mumbai
+  source:
+    address: '0x44b762A3Be3628ACfCA2Aa7224E4804dF5929FD1'
+    abi: ThanksPay2
+    startBlock: 26089000
+  mapping:
+    kind: ethereum/events
+    apiVersion: 0.0.5
+    language: wasm/assemblyscript
+    entities:
+    - changeInBalance
+    - handleEmployeeEvent
+    - handlePartnerEvent
+    - newMonthEvent
+    - newWithdrawalReceipt
+    abis:
+    - name: ThanksPay2
+      file: ./abis/ThanksPay2.json
+    eventHandlers:
+    - event: changeInBalance(uint256,uint256)
+      handler: handleChangeInBalance
+    - event: handleEmployeeEvent(string,uint256,uint256,uint256,string,uint256,uint256)
+      handler: handleHandleEmployeeEvent
+    - event: handlePartnerEvent(uint256,string,uint256,string,string,uint256,bool)
+      handler: handleHandlePartnerEvent
+    - event: newMonthEvent(uint256,uint256,uint256)
+      handler: handleNewMonthEvent
+    - event: newWithdrawalReceipt(uint256,uint256,uint256)
+      handler: handleNewWithdrawalReceipt
+    blockHandlers:
+    - handler: handleBlock
+    file: ./src/mapping.ts

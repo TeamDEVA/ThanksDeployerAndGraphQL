@@ -46,10 +46,6 @@ async function main() {
     let jsonResponse = await response.json();
     let partners = jsonResponse.data.partners;
     console.log("can it load partners?? : ", partners);
-
-    /*
-    DEPLOY THE CONTRACTs
-    */
     const mainnetProvider = new ethers.providers.JsonRpcProvider(process.env.mainnetRPC);
     const mainnetPrivateKey = process.env.MAINNET_PRIVATE_KEY;
     const mainnetWallet = new ethers.Wallet(mainnetPrivateKey, mainnetProvider);
