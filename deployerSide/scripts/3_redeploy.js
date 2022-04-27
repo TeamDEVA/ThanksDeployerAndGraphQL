@@ -5,6 +5,8 @@ const thanksEthereumClass = require('../API/thanksEthereum.js');
 const ChangeEnvAddress = require('../API/utils/changeEnvAddress.js');
 require('dotenv').config({ path: '.env' });
 const fs = require('fs');
+const execSync = require('child_process').execSync;
+var path = require("path");
 
 async function main() {
     const data = JSON.stringify({
@@ -50,6 +52,7 @@ async function main() {
     /*
     DEPLOY THE CONTRACTs
     */
+    const output = execSync('npx hardhat compile --force', { encoding: 'utf-8' }); 
     const mainnetProvider = new ethers.providers.JsonRpcProvider(process.env.mainnetRPC);
     const mainnetPrivateKey = process.env.MAINNET_PRIVATE_KEY;
     const mainnetWallet = new ethers.Wallet(mainnetPrivateKey, mainnetProvider);
@@ -62,7 +65,6 @@ async function main() {
     // Set gas limit and gas price, using the default Ropsten provider
     //const price = ethers.utils.formatUnits(await provider.getGasPrice(), 'gwei')
     //const options = {gasLimit: 100000, gasPrice: ethers.utils.parseUnits(price, 'gwei')}
-
     const mainnetFactory = await ethers.getContractFactory('ThanksPay2', mainnetWallet);
     const mainnetContract = await mainnetFactory.deploy();
     await mainnetContract.deployed();
