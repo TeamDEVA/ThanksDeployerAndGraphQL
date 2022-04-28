@@ -84,7 +84,6 @@ class thanksEthereumClass {
       if (typeof id==='undefined'){
         throw `When writing your query, you have to request employee's id when requesting currentBalance, like so: employee { currentBalance id }`;
       }
-      console.log(id);
       data[current] = await this.getBalance(parseInt(id)); // this line changes the thing ! 
       var thing = await this.getBalance(2);
 
@@ -105,7 +104,11 @@ class thanksEthereumClass {
         employees(first: 5) {
           id
           status
+          currentBalance
+          monthlyWage
           Withdrawals {
+            amount
+            time
             employee {
               id
             }
@@ -140,7 +143,6 @@ class thanksEthereumClass {
   async getBalance(id) {
     const currentDate = new Date();
     const timestamp = Math.floor(currentDate.getTime()/1000);
-    console.log('Trying to get balance at time' + timestamp);
     var thing = await this.read('getWithdrawable', [
       id, timestamp
     ]);
