@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const thanksEthereumClass = require('../../API/thanksEthereum.js');
-const Reader = require('../../API/reader.js');
+const thanksEthereumClass = require('../API/thanksEthereum.js');
+const Reader = require('../API/reader.js');
 const { TIMEOUT } = require("dns");
 
 describe("Thanks check", async function () {
@@ -11,10 +11,19 @@ describe("Thanks check", async function () {
   beforeEach(async function () {
   });
 
-  it("Should register a new partner and set a payday", async function () {
+  it("Should read the balance of the employee", async function () {
     this.timeout(0);
     //await thanksEthereum.initialize();
-    console.log(await thanksEthereum.extendedGraphQuery());
+    var data = await thanksEthereum.extendedGraphQuery();
+    console.log(data.employees.map(employee => {
+      employee.Withdrawals.map(withdrawal => {
+        console.log(withdrawal.amount);
+      })
+    }));
+    // data.employees.map(employee => {
+    //   console.log(employee.id);
+    //   console.log(employee.currentBalance);
+    // })
+    //console.log(await thanksEthereum.extendedGraphQuery());
   });
-
 });

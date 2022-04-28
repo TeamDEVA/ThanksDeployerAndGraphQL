@@ -11,26 +11,24 @@ function getDate(year, month, day) {
 
 describe("Thanks check", async function () {
   var mode = 0; // only create
-  var id = 18;
+  var id = 1;
   var dateArray = [
     getDate('2022', '3', '6'),
     getDate('2022', '3', '8'),
     getDate('2022', '3', '13'),
     getDate('2022', '3', '20'),
     getDate('2022', '3', '27'),
-    getDate('2022', '4', '3'),
+    getDate('2022', '3', '29'),
     getDate('2022', '4', '6'),
     getDate('2022', '4', '8')
   ];
   var reader = new Reader();
-  let noncePath = path.join(__dirname, '/../API/nonce.txt');
-  console.log(noncePath);
-  var thanksEthereum = new thanksEthereumClass(noncePath);
-  thanksEthereum.initialize();
+  
+  var thanksEthereum = new thanksEthereumClass();
+  
   var firstPayday;
   var blockFrom;
   var hash;
-
   beforeEach(async function () {
   });
 
@@ -39,6 +37,7 @@ describe("Thanks check", async function () {
     await thanksEthereum.initialize();
     firstPayday = dateArray[0];
     blockFrom = dateArray[dateArray.length - 2];
+    console.log('Should be blocked from '+(new Date(blockFrom*1000)));
     var result = await thanksEthereum.write("handlePartner", [
       mode, //mode = 0
       id,
@@ -74,8 +73,8 @@ describe("Thanks check", async function () {
 
   for (let i = 0; i <= dateArray.length-1; i++) {
     this.timeout(0);
-    it("Fixed payment, checking withdrawal at " + new Date(dateArray[i]/1000), async function () {
-      
+    it("Fixed payment, checking withdrawal at " + new Date(dateArray[i]*1000), async function () {
+
       var thisDate = dateArray[i];
       var result = await thanksEthereum.read("getWithdrawable", [
         id,

@@ -68,11 +68,11 @@ class EthereumHandler {
         this.web3 = new Web3(new Web3.providers.HttpProvider(this.RPC));
         this.Web3Contract = new this.web3.eth.Contract(abi, this.addr);
     }
-    async initializeNonceMainnet(network){
+    async initializeNonceMainnet(network, noncePath){
         console.log("Trying tow init");
-        if (network=="mainnet"){
-            var nonce = await this.web3.eth.getTransactionCount(process.env.mainnetSenderAddress)-1;
-            fs.writeFileSync(path.join(__dirname, '/../API/nonce.txt'), (nonce).toString());
+        if (network=="testnet"){
+            var nonce = await this.web3.eth.getTransactionCount(process.env.polygonSenderAddress)-1;
+            fs.writeFileSync(noncePath, (nonce).toString());
         }
     }
     async getRevertReason(txHash) {

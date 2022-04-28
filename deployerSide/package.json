@@ -8,7 +8,7 @@
     "deployTestnet": "npx hardhat run ./scripts/2_normalThanksPay2.js --network testnet",
     "deployMainnet": "npx hardhat run ./scripts/2_normalThanksPay2.js --network mainnet",
     "deployGanache": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache",
-    "deployAll": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache && npx hardhat run ./scripts/2_normalThanksPay2.js --network mainnet"
+    "deployAll": "npx hardhat run ./scripts/2_normalThanksPay2.js --network ganache && npx hardhat run ./scripts/2_normalThanksPay2.js --network testnet"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",

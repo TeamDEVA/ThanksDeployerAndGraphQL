@@ -9,7 +9,7 @@ contract ThanksPay2{
 
     address thanksAdmin;
     event handleEmployeeEvent(string email, uint256 workerId, uint256 partnerId, uint256 monthlyWage, string workerHashData, uint256 time, uint256 mode);
-    event newMonthEvent(uint256 partnerId, uint256 time, uint256 nextPayday);
+    event newMonthEvent(uint256 partnerId, uint256 lastPayday, uint256 blockFromDay);
     event newWithdrawalReceipt(uint256 workerId, uint256 amount, uint256 time);
     event handlePartnerEvent(uint256 partnerId, string partnerEmail, uint256 balance, string partnerLicenseId, string partnerHashData, uint256 mode, bool blocked);
     event changeInBalance(uint256, uint256 partnerId);
@@ -43,12 +43,12 @@ contract ThanksPay2{
 
     
     function payDay(uint256 partnerId, uint256 lastPayday, uint256 blockFromDay, uint256 balanceAdd) public{
-        require(block.timestamp - findPartner[partnerId].lastPayday > 28 days, "A month has not been passed!");
+        require(findPartner[partnerId].exists==true, "DEV-ERR: This partner is not registered");
         require(msg.sender == thanksAdmin, "It's a private smart contract");
         findPartner[partnerId].lastPayday = lastPayday; // @ block.timestamp;
         findPartner[partnerId].blockFromDay = blockFromDay;
         findPartner[partnerId].balance += balanceAdd;
-        emit newMonthEvent(partnerId, block.timestamp, blockFromDay);
+        emit newMonthEvent(partnerId, lastPayday, blockFromDay);
     }
 
     function getWithdrawable(uint256 employeeId, uint256 timestamp) public view returns(uint256, uint256){
