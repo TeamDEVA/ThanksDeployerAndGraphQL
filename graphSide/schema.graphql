@@ -4,7 +4,7 @@ type Employee @entity @mutation {
   email: String
   hashData: String
   partner: Partner
-  registeredSince: BigInt
+  registeredSince: Time
   currentBalance: BigInt
   Withdrawals: [Withdrawal!]@derivedFrom(field: "employee")
   allowedToWithdraw: BigInt # currently available to withdraw
@@ -27,10 +27,22 @@ type Partner @entity {
   registrationHash: String
 }
 
+type Time @entity {
+  id: ID!
+  timestamp: BigInt 
+  UTC: String
+  # partner: Partner
+  # startFrom: BigInt
+  # blockFrom: BigInt
+  # Withdrawals: [Withdrawal!]@derivedFrom(field: "month")
+  # registrationHash: String 
+}
+
 type Month @entity {
   id: ID!
   partner: Partner
-  startTime: BigInt
+  startFrom: Time
+  blockFrom: Time
   Withdrawals: [Withdrawal!]@derivedFrom(field: "month")
   registrationHash: String 
 }
@@ -38,7 +50,7 @@ type Month @entity {
 type Withdrawal @entity {
   id: ID!
   employee: Employee
-  time: BigInt
+  time: Time
   amount: BigInt
   month: Month
   registrationHash: String 

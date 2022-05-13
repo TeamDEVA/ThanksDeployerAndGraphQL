@@ -106,20 +106,20 @@ export class Employee extends Entity {
     }
   }
 
-  get registeredSince(): BigInt | null {
+  get registeredSince(): string | null {
     let value = this.get("registeredSince");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBigInt();
+      return value.toString();
     }
   }
 
-  set registeredSince(value: BigInt | null) {
+  set registeredSince(value: string | null) {
     if (!value) {
       this.unset("registeredSince");
     } else {
-      this.set("registeredSince", Value.fromBigInt(<BigInt>value));
+      this.set("registeredSince", Value.fromString(<string>value));
     }
   }
 
@@ -416,6 +416,73 @@ export class Partner extends Entity {
   }
 }
 
+export class Time extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Time entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Time entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Time", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Time | null {
+    return changetype<Time | null>(store.get("Time", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get timestamp(): BigInt | null {
+    let value = this.get("timestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set timestamp(value: BigInt | null) {
+    if (!value) {
+      this.unset("timestamp");
+    } else {
+      this.set("timestamp", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get UTC(): string | null {
+    let value = this.get("UTC");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set UTC(value: string | null) {
+    if (!value) {
+      this.unset("UTC");
+    } else {
+      this.set("UTC", Value.fromString(<string>value));
+    }
+  }
+}
+
 export class Month extends Entity {
   constructor(id: string) {
     super();
@@ -465,20 +532,37 @@ export class Month extends Entity {
     }
   }
 
-  get startTime(): BigInt | null {
-    let value = this.get("startTime");
+  get startFrom(): string | null {
+    let value = this.get("startFrom");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBigInt();
+      return value.toString();
     }
   }
 
-  set startTime(value: BigInt | null) {
+  set startFrom(value: string | null) {
     if (!value) {
-      this.unset("startTime");
+      this.unset("startFrom");
     } else {
-      this.set("startTime", Value.fromBigInt(<BigInt>value));
+      this.set("startFrom", Value.fromString(<string>value));
+    }
+  }
+
+  get blockFrom(): string | null {
+    let value = this.get("blockFrom");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockFrom(value: string | null) {
+    if (!value) {
+      this.unset("blockFrom");
+    } else {
+      this.set("blockFrom", Value.fromString(<string>value));
     }
   }
 
@@ -566,20 +650,20 @@ export class Withdrawal extends Entity {
     }
   }
 
-  get time(): BigInt | null {
+  get time(): string | null {
     let value = this.get("time");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBigInt();
+      return value.toString();
     }
   }
 
-  set time(value: BigInt | null) {
+  set time(value: string | null) {
     if (!value) {
       this.unset("time");
     } else {
-      this.set("time", Value.fromBigInt(<BigInt>value));
+      this.set("time", Value.fromString(<string>value));
     }
   }
 

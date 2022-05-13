@@ -6,9 +6,9 @@ dataSources:
     name: ThanksPay2
     network: mumbai
     source:
-      address: "0x44b762A3Be3628ACfCA2Aa7224E4804dF5929FD1"
+      address: "0xEd539c8d13CEB36488449dDdEe5166833C26d247"
       abi: ThanksPay2
-      startBlock: 26089000
+      startBlock: 26113854
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

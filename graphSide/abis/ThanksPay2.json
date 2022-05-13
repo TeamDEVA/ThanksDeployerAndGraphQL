@@ -133,13 +133,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "time",
+        "name": "lastPayday",
         "type": "uint256"
       },
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "nextPayday",
+        "name": "blockFromDay",
         "type": "uint256"
       }
     ],

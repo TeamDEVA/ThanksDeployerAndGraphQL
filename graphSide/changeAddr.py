@@ -7,7 +7,7 @@ import json
 
 
 env_vars = {} # or dict {}
-env_file = '../.env'
+env_file = '../deployerSide/.env'
 with open(env_file) as f:
     for line in f:
         if line.startswith('#') or not line.strip():
@@ -46,11 +46,10 @@ config['dataSources'][0]['source']['address'] = env_vars['THANKS_ADDRESS_POLYGON
 config['dataSources'][0]['mapping']['entities'] = []
 config['dataSources'][0]['mapping']['eventHandlers'] = []
 
+
 for eventName in events.keys():
     config['dataSources'][0]['mapping']['entities'].append(str(eventName))
     config['dataSources'][0]['mapping']['eventHandlers'].append({'event': eventName+'('+events[eventName]+')', 'handler': 'handle'+re.sub('([a-zA-Z])', lambda x: x.groups()[0].upper(), eventName, 1)})
-
-
 
 with open(file_name, 'w') as fp:
     yaml.dump(config, fp)

@@ -133,11 +133,11 @@ export class newMonthEvent__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get time(): BigInt {
+  get lastPayday(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get nextPayday(): BigInt {
+  get blockFromDay(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 }

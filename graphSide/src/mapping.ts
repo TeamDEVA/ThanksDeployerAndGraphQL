@@ -8,7 +8,7 @@ import {
   handlePartnerEvent,
   newWithdrawalReceipt
 } from "../generated/ThanksPay2/ThanksPay2"
-import {AllEmployee, AllLog, Log, Employee, Partner, Month, Withdrawal, Block, AllPartner } from "../generated/schema"
+import {AllEmployee, AllLog, Log, Time, Employee, Partner, Month, Withdrawal, Block, AllPartner } from "../generated/schema"
 
 function getAllEmployee(): AllEmployee
 {
@@ -41,14 +41,20 @@ export function handleHandleEmployeeEvent(event: handleEmployeeEvent): void {
   }
 
     if (employee){
-      employee.currentBalance = BigInt.fromI32(0);
       employee.email = event.params.email;
+      employee.currentBalance = BigInt.fromI32(0);
       employee.hashData = event.params.workerHashData;
-      employee.registeredSince = event.params.time;
+      let time = new Time(event.transaction.hash.toHex());
+      time.timestamp = event.params.time;
+      let tmp1:BigInt = event.params.time;
+      let date:Date = new Date(tmp1.toI32()*1000);
+      time.UTC = date.toString();
+      employee.registeredSince = time.id;
+      time.save();
       employee.totalAllowance = event.params.monthlyWage.div(BigInt.fromI32(2));
       employee.monthlyWage = event.params.monthlyWage;
       employee.allowedToWithdraw = BigInt.fromI32(0);
-      employee.registrationHash = event.transaction.hash.toString();
+      employee.registrationHash = event.transaction.hash.toHex();
       // Entity fields can be set based on event parameters
       
       let partner = Partner.load(event.params.partnerId.toString());
@@ -61,14 +67,32 @@ export function handleHandleEmployeeEvent(event: handleEmployeeEvent): void {
 }
 
 export function handleNewMonthEvent(event: newMonthEvent): void {
-  let month = new Month(event.params.partnerId.toString() + event.params.time.toString());
+  let month = new Month(event.params.partnerId.toHex() + event.params.lastPayday.toHex());
   let partner = Partner.load(event.params.partnerId.toString()); 
   if (partner){
     month.partner = partner.id;
     partner.currentMonth = month.id;
+    partner.save();
   }
-  month.startTime = event.params.time;
-  month.registrationHash = event.transaction.hash.toString();
+  let startTime = new Time(event.transaction.hash.toHex());
+  startTime.timestamp = event.params.lastPayday;
+  let tmp1:BigInt = event.params.lastPayday;
+  let tmp2:BigInt = tmp1.times(BigInt.fromI32(1));
+  let date:Date = new Date(tmp2.toI64());
+  startTime.UTC = date.toString();
+  month.startFrom = startTime.id;
+  startTime.save();
+
+  let blockFrom = new Time(event.transaction.hash.toHex());
+  blockFrom.timestamp = event.params.blockFromDay;
+  let tmp3:BigInt = event.params.blockFromDay;
+  let tmp4:BigInt = tmp3.times(BigInt.fromI32(1));
+  let date2:Date = new Date(tmp4.toI64());
+  blockFrom.UTC = date2.toString();
+  month.blockFrom = blockFrom.id;
+  blockFrom.save();
+
+  month.registrationHash = event.transaction.hash.toHex();
   month.save();
 }
 
@@ -102,7 +126,7 @@ export function handleHandlePartnerEvent(event: handlePartnerEvent): void {
       partner.balance = (event.params.balance);
       partner.email = event.params.partnerEmail; 
       partner.hashData = event.params.partnerHashData;
-      partner.registrationHash = event.transaction.hash.toString();
+      partner.registrationHash = event.transaction.hash.toHex();
       partner.blocked = event.params.blocked;
       partner.save();
     }
@@ -111,7 +135,7 @@ export function handleHandlePartnerEvent(event: handlePartnerEvent): void {
 
 export function handleNewWithdrawalReceipt(event: newWithdrawalReceipt): void {
   let withdrawal = new Withdrawal(event.transaction.hash.toHex());
-  let employee = Employee.load(event.params.workerId.toHex()) as Employee;
+  let employee = Employee.load(event.params.workerId.toString()) as Employee;
   let partner: Partner;
   if (employee){
     withdrawal.employee = employee.id;
@@ -125,8 +149,15 @@ export function handleNewWithdrawalReceipt(event: newWithdrawalReceipt): void {
     }
     employee.save();
   }
-
-  withdrawal.time = event.params.time;
+  let time = new Time(event.transaction.hash.toHex());
+  time.timestamp = event.params.time;
+  let tmp1:BigInt = event.params.time;
+  let tmp2:BigInt = tmp1.times(BigInt.fromI32(1));
+  let date2:Date = new Date(tmp2.toI64());
+  time.UTC = date2.toString();
+  withdrawal.time = time.id;
+  time.save();
+  
   withdrawal.amount = event.params.amount;
   withdrawal.save();
 }

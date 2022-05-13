@@ -110,7 +110,7 @@ contract ThanksPay2{
         uint256 withdrawnMonth;
         (allowedToWithdraw, withdrawnMonth) = getWithdrawable(employeeId, timestamp);
         require(myPartner.blocked==false, "ERR: withdrawals blocked by partner");
-        require(timestamp - myEmployee.lastWithdrawal > 1 days, "ERR: one withdrawal already done"); // workers can only withdraw once per day
+        // require(timestamp - myEmployee.lastWithdrawal > 1 days, "ERR: one withdrawal already done"); // workers can only withdraw once per day
         require(amount <= myPartner.balance, "ERR: partner company doesn't have balance"); // withdrawal should be less than partner balance
         // require(allowedToWithdraw!=0, "ERR: "); // 
         require(allowedToWithdraw > amount, "ERR: not enough money to cover this withdrawal");
